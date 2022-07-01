@@ -8,7 +8,7 @@ WebSocket是一种全双工通信协议，即客户端可以向服务端发送�
 
 2013年以前还没出JSR356标准，Tomcat就对Websocket做了支持，自定义API，再后来有了JSR356，Tomcat立马紧跟潮流，废弃自定义的API，实现JSR356那一套，这就使得在Tomcat7.0.47之后的版本和之前的版本实现方式并不一样，接入方式也改变了。
 
-JSR365是java制定的websocket编程规范，属于Java EE 7的一部分，所以要实现websocket内存马并不需要任何第三方依赖
+JSR356 是java制定的websocket编程规范，属于Java EE 7 的一部分，所以要实现websocket内存马并不需要任何第三方依赖
 
 ### 3.服务端实现方式
 
@@ -62,7 +62,7 @@ WebSocket是一种全双工通信协议，它可以用来做代理，且速度�
 
 例如有一台不出网主机，有反序列化漏洞。
 
-以前在这种场景下，之前可能会考虑上reGeorg或者利用端口复用来搭建代理。
+以前在这种场景下，可能会考虑上reGeorg或者利用端口复用来搭建代理。
 
 现在可以利用反序列化漏洞直接注入websocket代理内存马，然后直接连上用上全双工通信协议的代理。
 
@@ -72,3 +72,7 @@ WebSocket是一种全双工通信协议，它可以用来做代理，且速度�
 ./gost -L "socks5://:1080" -F "ws://127.0.0.1:8080?path=/proxy"
 ```
 然后连接本地1080端口socks5即可使用代理
+
+完整代码：[https://github.com/veo/wsMemShell](https://github.com/veo/wsMemShell) 
+
+@版权声明： 本文章著作权归作者所有。转载请注明出处！[https://github.com/veo](https://github.com/veo)

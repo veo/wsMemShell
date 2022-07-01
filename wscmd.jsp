@@ -6,7 +6,7 @@
 <%!
     public static class cmdEndpoint extends Endpoint {
         @Override
-        public void onOpen(Session session, EndpointConfig config) {
+        public void onOpen(final Session session, EndpointConfig config) {
             session.addMessageHandler(new MessageHandler.Whole<String>() {
                 @Override
                 public void onMessage(String s) {

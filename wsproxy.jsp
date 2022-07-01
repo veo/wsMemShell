@@ -9,6 +9,7 @@
 <%@ page import="java.nio.channels.CompletionHandler" %>
 <%@ page import="java.net.InetSocketAddress" %>
 <%@ page import="java.util.concurrent.Future" %>
+<%@ page import="org.apache.tomcat.websocket.server.WsServerContainer" %>
 <%!
     public static class ProxyEndpoint extends Endpoint {
         long i =0;
@@ -127,11 +128,14 @@
     }
 %>
 <%
+    String path = request.getParameter("path");
     ServletContext servletContext = request.getSession().getServletContext();
-    ServerEndpointConfig configEndpoint = ServerEndpointConfig.Builder.create(ProxyEndpoint.class, request.getParameter("path")).build();
-    ServerContainer container = (ServerContainer) servletContext.getAttribute(ServerContainer.class.getName());
+    ServerEndpointConfig configEndpoint = ServerEndpointConfig.Builder.create(ProxyEndpoint.class, path).build();
+    WsServerContainer container = (WsServerContainer) servletContext.getAttribute(ServerContainer.class.getName());
     try {
-        container.addEndpoint(configEndpoint);
+        if (null == container.findMapping(path)) {
+            container.addEndpoint(configEndpoint);
+        }
     } catch (DeploymentException e) {
         out.println(e.toString());
     }

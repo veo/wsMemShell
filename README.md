@@ -73,6 +73,7 @@ WebSocket是一种全双工通信协议，它可以用来做代理，且速度�
 ```
 然后连接本地1080端口socks5即可使用代理
 
+## 版权声明
 完整代码：[https://github.com/veo/wsMemShell](https://github.com/veo/wsMemShell) 
 
-@版权声明： 本文章著作权归作者所有。转载请注明出处！[https://github.com/veo](https://github.com/veo)
+本文章著作权归作者所有。转载请注明出处！[https://github.com/veo](https://github.com/veo)

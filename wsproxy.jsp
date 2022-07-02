@@ -58,7 +58,7 @@
                 public void failed(Throwable t, Attach scAttachment) {t.printStackTrace();}
             });
         }
-        void writeToServer(ByteBuffer z,Session channel, AsynchronousSocketChannel client){
+        void writeToServer(final ByteBuffer z,Session channel, AsynchronousSocketChannel client){
             client.write(z, z, new CompletionHandler<Integer, ByteBuffer>() {
                 @Override
                 public void completed(Integer result, ByteBuffer attach) {z.flip();}

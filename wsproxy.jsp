@@ -59,14 +59,6 @@
                 public void failed(Throwable t, Attach scAttachment) {t.printStackTrace();}
             });
         }
-        void writeToServer(final ByteBuffer z,Session channel, AsynchronousSocketChannel client){
-            client.write(z, z, new CompletionHandler<Integer, ByteBuffer>() {
-                @Override
-                public void completed(Integer result, ByteBuffer attach) {z.flip();}
-                @Override
-                public void failed(Throwable t, ByteBuffer asy) {}
-            });
-        }
         void process(ByteBuffer z,Session channel)
         {
             lock.lock();
@@ -74,7 +66,9 @@
                 if(i>1)
                 {
                     AsynchronousSocketChannel client = map.get(channel.getId());
-                    writeToServer(z,channel,client);
+                    client.write(z).get(10, TimeUnit.SECONDS);
+                    z.flip();
+                    z.clear();
                 }
                 else if(i==1)
                 {
@@ -85,15 +79,17 @@
                     int po = Integer.parseInt(addrarray[1]);
                     InetSocketAddress hostAddress = new InetSocketAddress(addrarray[0], po);
                     Future<Void> future = client.connect(hostAddress);
-                    future.get(10, TimeUnit.SECONDS);
+                    try {
+                        future.get(10, TimeUnit.SECONDS);
+                    } catch(Exception ignored){
+                        channel.getBasicRemote().sendText("HTTP/1.1 503 Service Unavailable\r\n\r\n");
+                        return;
+                    }
                     map.put(channel.getId(), client);
                     readFromServer(channel,client);
                     channel.getBasicRemote().sendText("HTTP/1.1 200 Connection Established\r\n\r\n");
                 }
-            }catch(Exception e){
-                try {
-                    channel.getBasicRemote().sendText("HTTP/1.1 503 Service Unavailable\r\n\r\n");
-                } catch (Exception ignored) {}
+            }catch(Exception ignored){
             }finally{
                 lock.unlock();
             }

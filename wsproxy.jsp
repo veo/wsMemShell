@@ -8,6 +8,7 @@
 <%@ page import="java.nio.ByteBuffer" %>
 <%@ page import="java.nio.channels.CompletionHandler" %>
 <%@ page import="java.net.InetSocketAddress" %>
+<%@ page import="java.util.concurrent.TimeUnit" %>
 <%@ page import="java.util.concurrent.Future" %>
 <%@ page import="org.apache.tomcat.websocket.server.WsServerContainer" %>
 <%!
@@ -84,12 +85,15 @@
                     int po = Integer.parseInt(addrarray[1]);
                     InetSocketAddress hostAddress = new InetSocketAddress(addrarray[0], po);
                     Future<Void> future = client.connect(hostAddress);
-                    future.get();
+                    future.get(10, TimeUnit.SECONDS);
                     map.put(channel.getId(), client);
                     readFromServer(channel,client);
                     channel.getBasicRemote().sendText("HTTP/1.1 200 Connection Established\r\n\r\n");
                 }
-            }catch(Exception ignored){
+            }catch(Exception e){
+                try {
+                    channel.getBasicRemote().sendText("HTTP/1.1 503 Service Unavailable\r\n\r\n");
+                } catch (Exception ignored) {}
             }finally{
                 lock.unlock();
             }

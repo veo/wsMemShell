@@ -2,7 +2,6 @@
 <%@ page import="javax.websocket.server.ServerContainer" %>
 <%@ page import="javax.websocket.*" %>
 <%@ page import="java.io.*" %>
-<%@ page import="java.util.concurrent.locks.ReentrantLock" %>
 <%@ page import="java.nio.channels.AsynchronousSocketChannel" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.nio.ByteBuffer" %>
@@ -14,9 +13,7 @@
 <%!
     public static class ProxyEndpoint extends Endpoint {
         long i =0;
-        int counter =0;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ReentrantLock lock = new ReentrantLock();
         HashMap<String,AsynchronousSocketChannel> map = new HashMap<String,AsynchronousSocketChannel>();
         static class Attach {
             public AsynchronousSocketChannel client;
@@ -30,7 +27,6 @@
             client.read(buffer, attach, new CompletionHandler<Integer, Attach>() {
                 @Override
                 public void completed(Integer result, final Attach scAttachment) {
-                    counter++;
                     buffer.clear();
                     try {
                         if(buffer.hasRemaining() && result>=0)
@@ -61,12 +57,11 @@
         }
         void process(ByteBuffer z,Session channel)
         {
-            lock.lock();
             try{
                 if(i>1)
                 {
                     AsynchronousSocketChannel client = map.get(channel.getId());
-                    client.write(z).get(10, TimeUnit.SECONDS);
+                    client.write(z).get();
                     z.flip();
                     z.clear();
                 }
@@ -90,8 +85,6 @@
                     channel.getBasicRemote().sendText("HTTP/1.1 200 Connection Established\r\n\r\n");
                 }
             }catch(Exception ignored){
-            }finally{
-                lock.unlock();
             }
         }
         @Override

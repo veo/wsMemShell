@@ -83,7 +83,9 @@ WebSocket是一种全双工通信协议，它可以用来做代理，且速度�
 
 然而例如哥斯拉的jsp马本身就是支持远程代码执行，那么jsp马其实可以保持不变就用哥斯拉原版，但发送class要修改，先发送过去先初始化注册ws马的class，连上ws以后再初始化恶意class，多一步，第二步连接的时候使用ws连接。
 
-<img src="image/ws.jpg" alt="vscan" width="50%"></a><img src="image/ws2.jpg" alt="vscan" width="50%"></a>
+如果是内存注入的webshell，则直接使用ws协议连接
+
+<img src="image/ws.jpg" alt="ws" width="50%"></a><img src="image/ws2.jpg" alt="ws" width="60%"></a>
 
 
 ## 版权声明

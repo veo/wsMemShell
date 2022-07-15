@@ -1,3 +1,6 @@
+// 部分哥斯拉实现websocket马核心片段
+
+
 public void onMessage(ByteBuffer databf) {
     try {
         data=x(databf.array(), false);

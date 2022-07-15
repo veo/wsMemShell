@@ -85,7 +85,7 @@ WebSocket是一种全双工通信协议，它可以用来做代理，且速度�
 
 如果是内存注入的webshell，则直接使用ws协议连接
 
-<img src="image/ws.jpg" alt="ws" width="50%"></a><img src="image/ws2.jpg" alt="ws" width="60%"></a>
+<img src="image/ws.jpg" alt="ws" width="49%"></a> <img src="image/ws2.jpg" alt="ws" width="49%"></a>
 
 
 ## 版权声明

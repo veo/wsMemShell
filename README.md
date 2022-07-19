@@ -4,7 +4,7 @@
 
 目前测试过 Tomcat Spring Jetty 都可以正常使用
 
-WebLogic 比较特殊有条件
+WebLogic 比较特殊有条件，详情见 WebLogic 目录和文件内的注释
 
 Jboss(WildFly) 未进行测试
 

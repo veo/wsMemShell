@@ -1,5 +1,11 @@
 # **WebSocket 内存马，一种新型内存马技术**
 
+### 0.兼容性测试
+
+目前测试过 Tomcat Spring Jetty 都可以正常使用
+WebLogic 比较特殊有条件
+Jboss(WildFly) 未进行测试
+
 ### 1.前言
 
 WebSocket是一种全双工通信协议，即客户端可以向服务端发送请求，服务端也可以主动向客户端推送数据。这样的特点，使得它在一些实时性要求比较高的场景效果斐然（比如微信朋友圈实时通知、在线协同编辑等）。主流浏览器以及一些常见服务端通信框架（Tomcat、netty、undertow、webLogic等）都对WebSocket进行了技术支持。

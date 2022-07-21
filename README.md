@@ -83,7 +83,7 @@ WebSocket是一种全双工通信协议，它可以用来做代理，且速度�
 
 ### 6.多功能shell实现
 
-想要使用ws马首先得支持连接ws协议的工具，目前市面的webshell管理工具都要从源码上修改才能支持ws协议
+想要使用ws马首先得支持连接ws协议的工具，目前市面的webshell管理工具都要从源码上修改才能支持ws协议（蚁剑v2.1.15已支持）
 
 具体实现过程也并不复杂，相当于只是替换了协议，内容其实可以不变。例如给出的哥斯拉支持样例，基本逻辑并没发生改变，只是协议变了
 
@@ -94,6 +94,19 @@ WebSocket是一种全双工通信协议，它可以用来做代理，且速度�
 如果是内存注入的webshell，则直接使用ws协议连接
 
 <img src="image/ws.jpg" alt="ws" width="49%"></a> <img src="image/ws2.jpg" alt="ws" width="49%"></a>
+
+蚁剑从v2.1.15开始支持解析ws协议，原生wscmd.jsp注入的内存马可使用CMDLINUX类型连接
+
+![](image/ws3.png)
+
+也可以修改wscmd.jsp中执行命令部分的代码，使用JSPJS类型连接
+
+``` java
+String all = (new javax.script.ScriptEngineManager().getEngineByName("js").eval(s)).toString();
+session.getBasicRemote().sendText(all);
+```
+
+![](image/ws4.png)
 
 
 ## 版权声明

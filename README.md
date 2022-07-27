@@ -95,18 +95,9 @@ WebSocket是一种全双工通信协议，它可以用来做代理，且速度�
 
 ### 6.多功能shell实现
 
-想要使用ws马首先得支持连接ws协议的工具，目前市面的webshell管理工具都要从源码上修改才能支持ws协议
+建议在了解 哥斯拉webshell工具 工作原理及代码，及 wsMemShell 原理及代码后，再阅读这篇文章，获得更好的体验。
 
-（内容更新 ：蚁剑v2.1.15已更新支持）
-
-
-具体实现过程也并不复杂，相当于只是替换了协议，内容其实可以不变。例如给出的哥斯拉支持样例，基本逻辑并没发生改变，只是协议变了
-
-还有一个问题是ws马必须先注入再连接，并不能直接连接jsp马。
-
-然而例如哥斯拉的jsp马本身就是支持远程代码执行，那么jsp马其实可以保持不变就用哥斯拉原版，但发送class要修改，先发送过去先初始化注册ws马的class，连上ws以后再初始化恶意class，多一步，第二步连接的时候使用ws连接。
-
-如果是内存注入的webshell，则直接使用ws协议连接
+[WebSocket webshell 多功能shell实现](https://www.freebuf.com/articles/web/339702.html)
 
 <img src="image/ws.jpg" alt="ws" width="49%"></a> <img src="image/ws2.jpg" alt="ws" width="49%"></a>
 

@@ -95,9 +95,9 @@ WebSocket是一种全双工通信协议，它可以用来做代理，且速度�
 
 ### 6.多功能shell实现
 
-建议在了解 哥斯拉webshell工具 工作原理及代码，及 wsMemShell 原理及代码后，再阅读这篇文章，获得更好的体验。
+建议在了解 哥斯拉webshell工具 工作原理及代码，及 wsMemShell 原理及代码后，再阅读下面这篇 Freebuf 文章，获得更好的阅读体验。
 
-[WebSocket webshell 多功能shell实现](https://www.freebuf.com/articles/web/339702.html)
+Freebuf: [WebSocket webshell 多功能shell实现](https://www.freebuf.com/articles/web/339702.html)
 
 <img src="image/ws.jpg" alt="ws" width="49%"></a> <img src="image/ws2.jpg" alt="ws" width="49%"></a>
 

@@ -2,11 +2,22 @@
 
 ### 0.兼容性测试
 
-目前测试过 Tomcat Spring Jetty 都可以正常使用
+**目前测试通过：**
 
-WebLogic 比较特殊有条件，详情见 WebLogic 目录和文件内的注释
+Tomcat
 
-Jboss(WildFly) 未进行测试
+Spring
+
+Jetty
+
+WebSphere
+
+WebLogic
+
+
+**还未进行测试：**
+
+Jboss(WildFly) 
 
 ### 1.前言
 

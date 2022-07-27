@@ -4,15 +4,7 @@
 
 **目前测试通过：**
 
-Tomcat
-
-Spring
-
-Jetty
-
-WebSphere
-
-WebLogic
+Tomcat、Spring、Jetty、WebSphere、WebLogic
 
 Nodejs （无法动态注入，需要修改代码后重启服务）
 
@@ -20,8 +12,10 @@ Nodejs （无法动态注入，需要修改代码后重启服务）
 
 Jboss(WildFly) 
 
-无法使用的场景：
+**无法使用的场景：**
+
 1.使用了Nginx等代理，未配置Header转发 支持WebSocket
+
 2.使用了CDN，CDN供应商未支持WebSocket服务
 
 ### 1.前言

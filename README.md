@@ -14,6 +14,7 @@ WebSphere
 
 WebLogic
 
+Nodejs （无法动态注入，需要修改代码后重启服务）
 
 **还未进行测试：**
 

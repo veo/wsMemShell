@@ -20,6 +20,10 @@ Nodejs （无法动态注入，需要修改代码后重启服务）
 
 Jboss(WildFly) 
 
+无法使用的场景：
+1.使用了Nginx等代理，未配置Header转发 支持WebSocket
+2.使用了CDN，CDN供应商未支持WebSocket服务
+
 ### 1.前言
 
 WebSocket是一种全双工通信协议，即客户端可以向服务端发送请求，服务端也可以主动向客户端推送数据。这样的特点，使得它在一些实时性要求比较高的场景效果斐然（比如微信朋友圈实时通知、在线协同编辑等）。主流浏览器以及一些常见服务端通信框架（Tomcat、netty、undertow、webLogic等）都对WebSocket进行了技术支持。

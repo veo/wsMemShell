@@ -89,6 +89,8 @@
         @Override
         public void onOpen(final Session session, EndpointConfig config) {
             i=0;
+            session.setMaxBinaryMessageBufferSize(1024*1024*20);
+            session.setMaxTextMessageBufferSize(1024*1024*20);
             session.addMessageHandler(new MessageHandler.Whole<ByteBuffer>() {
                 @Override
                 public void onMessage(ByteBuffer message) {

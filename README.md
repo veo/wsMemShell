@@ -4,7 +4,7 @@
 
 #### （1）目前测试通过
 
-Tomcat、Spring、Jetty、WebSphere、WebLogic
+Tomcat、Spring、Jetty、WebSphere、WebLogic、Resin
 
 Nodejs （无法动态注入，需要修改代码后重启服务）
 

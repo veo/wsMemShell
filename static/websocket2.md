@@ -4,4 +4,4 @@
 
 Freebuf: [WebSocket webshell 多功能shell实现](https://www.freebuf.com/articles/web/339702.html)
 
-<img src="static/ws.jpg" alt="ws" width="49%"></a> <img src="static/ws2.jpg" alt="ws" width="49%"></a>
+<img src="ws.jpg" alt="ws" width="49%"></a> <img src="ws2.jpg" alt="ws" width="49%"></a>

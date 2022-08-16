@@ -22,7 +22,7 @@ Tomcat在启动时会默认通过 WsSci 内的 ServletContainerInitializer 初�
 
 所以即使 Tomcat 没有扫描到 `@ServerEndpoint`注解的类，也会进行Listener和 servlet注册，这就是为什么所有Tomcat启动都能在memshell scanner内看到WsFilter
 
-![static-1](static/1.png)
+![static-1](1.png)
 
 #### （2）继承抽象类Endpoint方式
 
@@ -50,8 +50,8 @@ container.addEndpoint(config);
 
 首先利用i.jsp注入一个websocket服务，路径为/x，注入后利用ws连接即可执行命令
 
-![static-2](static/2.png)
+![static-2](2.png)
 
 且通过memshell scanner查询不到任何异常（因为根本就没注册新的 Listener、servlet 或者 Filter）
 
-![static-3](static/3.png)
+![static-3](3.png)

@@ -1,4 +1,4 @@
-# **WebSocket 内存马，一种新型内存马技术**
+# **WebSocket Webshell，一种新型WebShell技术**
 
 ## 兼容性测试
 
@@ -14,15 +14,21 @@ Jboss(WildFly)
 
 #### （3）无法使用的场景
 
-1.使用了Nginx等代理，未配置Header转发 支持WebSocket
+~~1.使用了Nginx等代理，未配置Header转发 支持WebSocket~~ 已支持
 
-2.使用了CDN，CDN供应商未支持WebSocket服务
+~~2.使用了CDN，CDN供应商未支持WebSocket服务~~ 已支持
+
+#### （4）~~必须注入内存~~
+
+已支持不注入内存，非必须
+
 
 ## 详细介绍
 
 - ### [websocket 内存马介绍](/static/websocket1.md)
 - ### [websocket 内存马代理](/static/websocketproxy.md)
 - ### [websocket 多功能shell实现](/static/websocket2.md)
+- ### [无需注入，可以绕过Nginx、CDN代理限制的 WebSocket jsp马](/static/wsNotAddEndpoint.md)
 
 ## 版权声明
 

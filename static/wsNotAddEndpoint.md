@@ -1,6 +1,6 @@
 # 无需注入，可以绕过Nginx、CDN代理限制的 WebSocket jsp马
 
-    之前提到过可以向 WsServerContainer 容器内 添加ServerEndpointConfig 来注册WebSocket内存马，这样即有好处也有弊端，好处是内存马无落地文件，不好的地方是容易受限制无法使用。于是，我最近改写了下脚本的内容，直接取jsp内的request进行协议升级，从而不需要进行注册路径等操作，增加了HttpServletRequest的Header，使其可以在Nginx代理默认配置下使用
+之前提到过可以向 WsServerContainer 容器内 添加ServerEndpointConfig 来注册WebSocket内存马，这样即有好处也有弊端，好处是内存马无落地文件，不好的地方是容易受限制无法使用。于是，我最近改写了下脚本的内容，直接取jsp内的request进行协议升级，从而不需要进行注册路径等操作，增加了HttpServletRequest的Header，使其可以在Nginx代理默认配置下使用
 
 Nginx默认代理配置本身是不支持WebSocket协议的，需要修改 /etc/nginx/conf.d/nginx.conf，增加 proxy_set_header 内容，网上也可以搜到许多资料，其实就是增加了两个文件头，并未做其他处理。
 

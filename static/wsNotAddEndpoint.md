@@ -58,3 +58,5 @@ Tomcat 是通过org.apache.tomcat.websocket.server.UpgradeUtil.doUpgrade 来把h
 那把需要的内容传入进去，即可完成jsp文件连接WebSocket的功能
 
 UpgradeUtil.doUpgrade(container, request, response, configEndpoint, pathParams);
+
+代码：[BypassNginxCDN/wsNotAddEndpoint.jsp](BypassNginxCDN/wsNotAddEndpoint.jsp)

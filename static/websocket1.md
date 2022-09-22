@@ -34,7 +34,7 @@ Tomcat在启动时会默认通过 WsSci 内的 ServletContainerInitializer 初�
 ServerEndpointConfig serverEndpointConfig = ServerEndpointConfig.Builder.create(WebSocketServerEndpoint3.class, "/ws/{userId}").decoders(decoderList).encoders(encoderList).configurator(new MyServerConfigurator()).build();
 ```
 
-## 3.websocket内存马实现方法
+## 4.websocket内存马实现方法
 
 之前提到过 Tomcat 在启动时会默认通过 WsSci 内的 ServletContainerInitializer 初始化 Listener 和 servlet。然后再扫描 `classpath`下带有 `@ServerEndpoint`注解的类进行 `addEndpoint`加入websocket服务
 
@@ -46,7 +46,7 @@ ServerContainer container = (ServerContainer) req.getServletContext().getAttribu
 container.addEndpoint(config);
 ```
 
-## 4.效果
+## 5.效果
 
 首先利用i.jsp注入一个websocket服务，路径为/x，注入后利用ws连接即可执行命令
 

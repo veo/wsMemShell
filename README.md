@@ -20,7 +20,7 @@ Jboss(WildFly)
 
 #### （4）~~必须注入内存~~
 
-已支持jsp文件连接WebSocket
+已支持jsp文件连接WebSocket，使用更加方便，详情见 BypassNginxCDN 目录，可以直接jsp连接WebSocket代理
 
 
 ## 详细介绍

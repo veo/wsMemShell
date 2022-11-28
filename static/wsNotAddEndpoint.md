@@ -59,4 +59,5 @@ Tomcat 是通过org.apache.tomcat.websocket.server.UpgradeUtil.doUpgrade 来把h
 
 UpgradeUtil.doUpgrade(container, request, response, configEndpoint, pathParams);
 
-代码：[https://github.com/veo/wsMemShell/blob/main/BypassNginxCDN/wsNotAddEndpoint.jsp](https://github.com/veo/wsMemShell/blob/main/BypassNginxCDN/wsNotAddEndpoint.jsp)
+绕过代码：[https://github.com/veo/wsMemShell/blob/main/BypassNginxCDN/cmdbypass.jsp](https://github.com/veo/wsMemShell/blob/main/BypassNginxCDN/cmdbypass.jsp)
+绕过方式二代码：[https://github.com/veo/wsMemShell/blob/main/BypassNginxCDN/cmdbypass2.jsp](https://github.com/veo/wsMemShell/blob/main/BypassNginxCDN/cmdbypass2.jsp)

